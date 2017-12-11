@@ -14,6 +14,7 @@ LOCAL_MODULE_FILENAME := libMyGame
 LOCAL_SRC_FILES := $(LOCAL_PATH)/hellocpp/main.cpp \
                    $(LOCAL_PATH)/../../../Classes/src/AppDelegate.cpp \
 				   $(LOCAL_PATH)/../../../Classes/src/AIUnit.cpp \
+				   $(LOCAL_PATH)/../../../Classes/src/TestSprite.cpp \
                    $(LOCAL_PATH)/../../../Classes/src/TestEnvironment.cpp
 
 

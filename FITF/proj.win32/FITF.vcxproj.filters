@@ -27,6 +27,9 @@
     <ClCompile Include="..\Classes\src\TestEnvironment.cpp">
       <Filter>src\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\src\TestSprite.cpp">
+      <Filter>src\src</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\src\AIUnit.cpp">
       <Filter>src\src</Filter>
     </ClCompile>
@@ -42,6 +45,9 @@
       <Filter>src\include</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\include\AIUnit.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\include\TestSprite.h">
       <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "cocos2d.h"
+#include <vector>
 
 using namespace cocos2d;
 
@@ -23,9 +24,9 @@ private:
 
 
 	// Three Laws that boids follow
-	Vec2 Separation(Vector<AIUnit>&);
-	Vec2 Alignment(Vector<AIUnit>&);
-	Vec2 Cohesion(Vector<AIUnit>&);
+	Vec2 Separation(std::vector<AIUnit>&);
+	Vec2 Alignment(std::vector<AIUnit>&);
+	Vec2 Cohesion(std::vector<AIUnit>&);
 
 	Vec2 location;
 	Vec2 velocity;
@@ -34,18 +35,20 @@ private:
 	float maxSpeed;
 	float maxForce;
 
+	void limit(Vec2& v, float l);
+
 
 	Vec2 seek(Vec2 v);
 
-	void flock(Vector<AIUnit>&);
-
-	void swarm(Vector<AIUnit>&);
+	void flock(std::vector<AIUnit>&);
 
 public:
 	AIUnit(Vec2 pos);
 
-	void update(Vector<AIUnit>&);
+	Vec2& update(std::vector<AIUnit>&);
 
-
+	Vec2 getPos() {
+		return location;
+	};
 
 };

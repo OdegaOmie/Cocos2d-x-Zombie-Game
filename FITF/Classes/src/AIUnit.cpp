@@ -3,6 +3,11 @@
 using namespace cocos2d;
 
 
+AIUnit::AIUnit(Vec2 p) {
+	location = p;
+}
+
+
 // Adds force Vec2 to current force Vec2
 void AIUnit::applyForce(Vec2 force)
 {
@@ -11,7 +16,7 @@ void AIUnit::applyForce(Vec2 force)
 
 // Function that checks and modifies the distance
 // of a AIUnit if it breaks the law of separation.
-Vec2 AIUnit::Separation(Vector<AIUnit>& AIUnits)
+Vec2 AIUnit::Separation(std::vector<AIUnit>& AIUnits)
 {
 	// If the AIUnit we're looking at is a predator, do not run the separation
 	// algorithm
@@ -25,12 +30,12 @@ Vec2 AIUnit::Separation(Vector<AIUnit>& AIUnits)
 	// For every AIUnit in the system, check if it's too close
 	for (int i = 0; i < AIUnits.size(); i++)
 	{
-		float d = location.distance(AIUnits.at(i).location);
+		float d = location.distance(AIUnits[i].location);
 		// If this is a fellow AIUnit and it's too close, move away from it
 		if ((d > 0) && (d < desiredseparation))
 		{
 			Vec2 diff(0, 0);
-			diff  = location -  AIUnits.at(i).location;
+			diff  = location -  AIUnits[i].location;
 			diff.normalize();
 			diff = diff / (d);      // Weight by distance
 			steer += (diff);
@@ -47,13 +52,22 @@ Vec2 AIUnit::Separation(Vector<AIUnit>& AIUnits)
 		steer.normalize();
 		steer *= (maxSpeed);
 		steer -= (velocity);
-		steer.clamp(Vec2::ZERO,Vec2( maxForce, maxForce));
+		limit(steer, maxForce);
 	}
 	return steer;
 }
 
+void AIUnit::limit(Vec2& v, float l)
+{
+	if (v.length() > l) 
+	{
+		v.normalize();
+		v *= l;
+	}
+}
 
-Vec2 AIUnit::Alignment(Vector<AIUnit>& AIUnits)
+
+Vec2 AIUnit::Alignment(std::vector<AIUnit>& AIUnits)
 {
 	float neighbordist = 50;
 
@@ -61,10 +75,10 @@ Vec2 AIUnit::Alignment(Vector<AIUnit>& AIUnits)
 	int count = 0;
 	for (int i = 0; i < AIUnits.size(); i++)
 	{
-		float d = location.distance(AIUnits.at(i).location);
+		float d = location.distance(AIUnits[i].location);
 		if ((d > 0) && (d < neighbordist)) // 0 < d < 50
 		{
-			sum += AIUnits.at(i).velocity;
+			sum += AIUnits[i].velocity;
 			count++;
 		}
 	}
@@ -77,7 +91,7 @@ Vec2 AIUnit::Alignment(Vector<AIUnit>& AIUnits)
 									
 		Vec2 steer;
 		steer = sum - velocity; 
-		steer.clamp(Vec2::ZERO, Vec2(maxForce, maxForce));
+		limit(steer, maxForce);
 		return steer;
 	}
 	else
@@ -86,7 +100,7 @@ Vec2 AIUnit::Alignment(Vector<AIUnit>& AIUnits)
 
 // Cohesion finds the average location of nearby AIUnits and manipulates the 
 // steering force to move in that direction.
-Vec2 AIUnit::Cohesion(Vector<AIUnit>& AIUnits)
+Vec2 AIUnit::Cohesion(std::vector<AIUnit>& AIUnits)
 {
 	// If the AIUnit we're looking at is a predator, do not run the cohesion
 	// algorithm
@@ -99,10 +113,10 @@ Vec2 AIUnit::Cohesion(Vector<AIUnit>& AIUnits)
 	int count = 0;
 	for (int i = 0; i < AIUnits.size(); i++)
 	{
-		float d = location.distance(AIUnits.at(i).location);
+		float d = location.distance(AIUnits[i].location);
 		if ((d > 0) && (d < neighbordist))
 		{
-			sum += (AIUnits.at(i).location);
+			sum += (AIUnits[i].location);
 			count++;
 		}
 	}
@@ -126,13 +140,13 @@ Vec2 AIUnit::seek(Vec2 v)
 	desired *= (maxSpeed);
 	// Steering = Desired minus Velocity
 	acceleration = desired - velocity;
-	acceleration.clamp(Vec2::ZERO, Vec2(maxForce, maxForce));  // Limit to maximum steering force
+	limit(acceleration, maxForce);
 	return acceleration;
 }
 
 //Update modifies velocity, location, and resets acceleration with values that
 //are given by the three laws.
-void AIUnit::update(Vector<AIUnit>& AIUnits)
+Vec2& AIUnit::update(std::vector<AIUnit>& AIUnits)
 {
 	flock(AIUnits);
 	//To make the slow down not as abrupt
@@ -140,17 +154,19 @@ void AIUnit::update(Vector<AIUnit>& AIUnits)
 	// Update velocity
 	velocity += (acceleration);
 	// Limit speed
-	velocity.clamp(Vec2::ZERO, Vec2(maxForce, maxForce));
+	limit(velocity, maxSpeed);
 	location += (velocity);
 	// Reset accelertion to 0 each cycle
 	acceleration = Vec2::ZERO;
+
+	return location;
 }
 
 
 
 //Applies all three laws for the flock of AIUnits and modifies to keep them from
 //breaking the laws.
-void AIUnit::flock(Vector<AIUnit>& AIUnits)
+void AIUnit::flock(std::vector<AIUnit>& AIUnits)
 {
 	Vec2 sep = Separation(AIUnits);
 	Vec2 ali = Alignment(AIUnits);

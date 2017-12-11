@@ -21,11 +21,11 @@ bool TestEnvironment::init()
     auto visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+	hudLayer = new Layer();
 
-    // add a "close" icon to exit the progress. it's an autorelease object
+	this->addChild(hudLayer, 0, 0);
+
+
     auto closeItem = MenuItemImage::create(
                                            "CloseNormal.png",
                                            "CloseSelected.png",
@@ -37,9 +37,33 @@ bool TestEnvironment::init()
     // create menu, it's an autorelease object
     auto menu = Menu::create(closeItem, NULL);
     menu->setPosition(Vec2::ZERO);
-    this->addChild(menu, 1);
+	hudLayer->addChild(menu, 1);
 
 
+	gameLayer = new Layer();
+
+	this->addChild(gameLayer, 1, 1);
+	num_boid_test_units = 20;
+
+	Vec2 screen_mid = Vec2(900 / 2, 720 / 2);
+
+	/*
+	I have decided to keep the compass objects as member variables of the scene
+	this has the advantage of when a test sprite is destroyed it just has to delete it's pointers
+	and not the AIUnit itself, which can all be neatly destroyed when the scene terminates
+	also if we think about the update, if the test sprite owns the AIUnit each AIUnit has to be passed
+	from test sprite to scene to test sprite, this way it'S just scene to test sprite
+	*/
+
+
+	for (int i = 0; i < num_boid_test_units; i++) 
+	{
+		AIUnits.push_back(AIUnit(Vec2(screen_mid.x + (i * 2 * (pow(-1, i % 2))), screen_mid.y + (i * 2 * (pow(-1, i % 2))))));
+		boid_test_units.pushBack(TestSprite::create(AIUnits[i]));
+		gameLayer->addChild(boid_test_units.at(i), 0, i);
+	}
+	
+	this->scheduleUpdate();
     
     return true;
 }
@@ -60,4 +84,12 @@ void TestEnvironment::menuCloseCallback(Ref* pSender)
     //_eventDispatcher->dispatchEvent(&customEndEvent);
     
     
+}
+
+void TestEnvironment::update(float dt)
+{
+	for (int i = 0; i < num_boid_test_units; i++)
+	{
+		boid_test_units.at(i)->update(AIUnits);
+	}
 }
