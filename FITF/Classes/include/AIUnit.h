@@ -37,6 +37,8 @@ private:
 
 	void limit(Vec2& v, float l);
 
+	void bounds();
+
 
 	Vec2 seek(Vec2 v);
 

@@ -11,15 +11,15 @@ class TestSprite : public cocos2d::Sprite
 private:
 	//Vec2 pos;
 	AIUnit* compass;
-
+	std::vector<AIUnit>& aiRef;
 
 public:
 
-	TestSprite();
+	TestSprite(std::vector<AIUnit>&);
 
-	static TestSprite * create(AIUnit& ai);
+	static TestSprite * create(AIUnit& ai, std::vector<AIUnit>&);
 
-	void update(std::vector<AIUnit>&);
+	void update(float dt) override;
 
 
 };

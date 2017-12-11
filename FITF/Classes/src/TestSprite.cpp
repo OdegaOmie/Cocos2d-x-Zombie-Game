@@ -3,16 +3,17 @@
 using namespace cocos2d;
 
 
-TestSprite::TestSprite() {
+TestSprite::TestSprite( std::vector<AIUnit>& ref) : aiRef(ref)
+{
 
 };
 
 
 
 
-TestSprite * TestSprite::create( AIUnit& ai)
+TestSprite * TestSprite::create( AIUnit& ai, std::vector<AIUnit>& ref)
 {
-	TestSprite* pSprite = new TestSprite();
+	TestSprite* pSprite = new TestSprite(ref);
 	if (pSprite->initWithFile("boid_test_img.png"))
 	{
 		pSprite->autorelease();
@@ -28,9 +29,9 @@ TestSprite * TestSprite::create( AIUnit& ai)
 	return NULL;
 }
 
-void TestSprite::update(std::vector<AIUnit>& AIUnits)
+void TestSprite::update(float dt)
 {
-	this->setPosition(compass->update(AIUnits));
+	this->setPosition(compass->update(aiRef));
 	
 }
 

@@ -59,7 +59,7 @@ bool TestEnvironment::init()
 	for (int i = 0; i < num_boid_test_units; i++) 
 	{
 		AIUnits.push_back(AIUnit(Vec2(screen_mid.x + (i * 2 * (pow(-1, i % 2))), screen_mid.y + (i * 2 * (pow(-1, i % 2))))));
-		boid_test_units.pushBack(TestSprite::create(AIUnits[i]));
+		boid_test_units.pushBack(TestSprite::create(AIUnits[i], AIUnits));
 		gameLayer->addChild(boid_test_units.at(i), 0, i);
 	}
 	
@@ -90,6 +90,6 @@ void TestEnvironment::update(float dt)
 {
 	for (int i = 0; i < num_boid_test_units; i++)
 	{
-		boid_test_units.at(i)->update(AIUnits);
+		boid_test_units.at(i)->update(dt);
 	}
 }

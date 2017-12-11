@@ -5,6 +5,8 @@ using namespace cocos2d;
 
 AIUnit::AIUnit(Vec2 p) {
 	location = p;
+	maxForce = 2.5f;
+	maxSpeed = 2.0f;
 }
 
 
@@ -63,6 +65,26 @@ void AIUnit::limit(Vec2& v, float l)
 	{
 		v.normalize();
 		v *= l;
+	}
+}
+
+void AIUnit::bounds()
+{
+	Vec2 screen = Vec2(900, 720);
+	if (location.x > screen.x) {
+		location.x = 0;
+	}
+	else if(location.x <= 0)
+	{
+		location.x = screen.x;
+	}
+
+	if (location.y > screen.y) {
+		location.y = 0;
+	}
+	else if (location.y <= 0)
+	{
+		location.y = screen.y;
 	}
 }
 
@@ -158,7 +180,7 @@ Vec2& AIUnit::update(std::vector<AIUnit>& AIUnits)
 	location += (velocity);
 	// Reset accelertion to 0 each cycle
 	acceleration = Vec2::ZERO;
-
+	bounds();
 	return location;
 }
 
@@ -173,8 +195,8 @@ void AIUnit::flock(std::vector<AIUnit>& AIUnits)
 	Vec2 coh = Cohesion(AIUnits);
 	// Arbitrarily weight these forces
 	sep *= (1.5);
-	ali *= (1.0); // Might need to alter weights for different characteristics
-	coh *= (1.0);
+	ali *= (-1.7f); // Might need to alter weights for different characteristics
+	coh *= (2.0);
 	// Add the force vectors to acceleration
 	applyForce(sep);
 	applyForce(ali);
