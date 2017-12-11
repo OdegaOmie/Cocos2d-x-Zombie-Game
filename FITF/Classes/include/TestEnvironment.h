@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include <vector>
+#include <random>
 #include "TestSprite.h"
 using namespace cocos2d;
 

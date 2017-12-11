@@ -43,10 +43,12 @@ bool TestEnvironment::init()
 	gameLayer = new Layer();
 
 	this->addChild(gameLayer, 1, 1);
-	num_boid_test_units = 20;
+	num_boid_test_units = 70;
 
 	Vec2 screen_mid = Vec2(900 / 2, 720 / 2);
 
+	int rx = 0;
+	int ry = 0;
 	/*
 	I have decided to keep the compass objects as member variables of the scene
 	this has the advantage of when a test sprite is destroyed it just has to delete it's pointers
@@ -58,7 +60,9 @@ bool TestEnvironment::init()
 
 	for (int i = 0; i < num_boid_test_units; i++) 
 	{
-		AIUnits.push_back(AIUnit(Vec2(screen_mid.x + (i * 2 * (pow(-1, i % 2))), screen_mid.y + (i * 2 * (pow(-1, i % 2))))));
+		rx = CCRANDOM_MINUS1_1() * 200.0f;
+		ry = CCRANDOM_MINUS1_1() * 200.0f;
+		AIUnits.push_back(AIUnit(Vec2(screen_mid.x + rx, screen_mid.y + ry)));
 		boid_test_units.pushBack(TestSprite::create(AIUnits[i], AIUnits));
 		gameLayer->addChild(boid_test_units.at(i), 0, i);
 	}

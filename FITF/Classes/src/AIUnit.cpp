@@ -5,7 +5,7 @@ using namespace cocos2d;
 
 AIUnit::AIUnit(Vec2 p) {
 	location = p;
-	maxForce = 2.5f;
+	maxForce = 4.5f;
 	maxSpeed = 2.0f;
 }
 
@@ -24,7 +24,7 @@ Vec2 AIUnit::Separation(std::vector<AIUnit>& AIUnits)
 	// algorithm
 
 	// Distance of field of vision for separation between AIUnits
-	float desiredseparation = 20;
+	float desiredseparation = 500;
 
 	Vec2 steer(0, 0);
 	int count = 0;
@@ -91,7 +91,7 @@ void AIUnit::bounds()
 
 Vec2 AIUnit::Alignment(std::vector<AIUnit>& AIUnits)
 {
-	float neighbordist = 50;
+	float neighbordist = 500;
 
 	Vec2 sum(0, 0);
 	int count = 0;
@@ -129,7 +129,7 @@ Vec2 AIUnit::Cohesion(std::vector<AIUnit>& AIUnits)
 	//if (predator == true)
 	//	return Vec2(0,0);
 
-	float neighbordist = 50;
+	float neighbordist = 500;
 
 	Vec2 sum(0, 0);
 	int count = 0;
@@ -194,9 +194,9 @@ void AIUnit::flock(std::vector<AIUnit>& AIUnits)
 	Vec2 ali = Alignment(AIUnits);
 	Vec2 coh = Cohesion(AIUnits);
 	// Arbitrarily weight these forces
-	sep *= (1.5);
-	ali *= (-1.7f); // Might need to alter weights for different characteristics
-	coh *= (2.0);
+	sep *= (1);
+	ali *= (0.3); // Might need to alter weights for different characteristics
+	coh *= (1.5);
 	// Add the force vectors to acceleration
 	applyForce(sep);
 	applyForce(ali);
