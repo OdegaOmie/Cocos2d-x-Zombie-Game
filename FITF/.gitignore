@@ -5,6 +5,7 @@ proj.ios_mac/
 proj.tizen/
 proj.linux/
 proj.win10/
+proj.android/
 
 # Ignore files build by Visual Studio
 *.obj
