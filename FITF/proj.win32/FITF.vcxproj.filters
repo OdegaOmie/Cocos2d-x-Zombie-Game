@@ -10,27 +10,45 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\src">
+      <UniqueIdentifier>{c85f8995-2c68-4f13-bd12-8a58c23c1874}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\include">
+      <UniqueIdentifier>{334ba60d-991d-41d2-b6cc-87fc53381222}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>win32</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\AppDelegate.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\src\AppDelegate.cpp">
+      <Filter>src\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\Classes\src\TestEnvironment.cpp">
+      <Filter>src\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\src\TestSprite.cpp">
+      <Filter>src\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\src\AIUnit.cpp">
+      <Filter>src\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
       <Filter>win32</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\AppDelegate.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\include\AppDelegate.h">
+      <Filter>src\include</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\HelloWorldScene.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\Classes\include\TestEnvironment.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\include\AIUnit.h">
+      <Filter>src\include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\include\TestSprite.h">
+      <Filter>src\include</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
