@@ -98,7 +98,7 @@ Vec2 AIUnit::Alignment(std::vector<AIUnit>& AIUnits)
 	for (int i = 0; i < AIUnits.size(); i++)
 	{
 		float d = location.distance(AIUnits[i].location);
-		if ((d > 0) && (d < neighbordist)) // 0 < d < 50
+		if ((d > 0) && (d < neighbordist))
 		{
 			sum += AIUnits[i].velocity;
 			count++;
